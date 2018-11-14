@@ -29,7 +29,7 @@ class Input extends React.Component{
     }
     //Metodo para ver se tem erro ou não
     hasError = ()=>{
-        if(this.state.erro){  //Se retornar valor null ou "" (valores falsos)
+        if(this.state.erro == null ||this.state.erro !== ''){  //Se retornar valor null ou "" (valores falsos)
             return true
         } else {
             return false
@@ -49,6 +49,7 @@ class Input extends React.Component{
             message = 'Digite um email válido'
         }
         this.setState({erro : message},this.props.onChange)
+        //This props entra depois para garantir que o onchange será executado após a atualização da message
         return
     }
     render() {

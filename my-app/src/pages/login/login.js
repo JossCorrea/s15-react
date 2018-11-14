@@ -25,11 +25,19 @@ class Login extends React.Component{
     constructor(){
         super()
         this.state = {disabled:true}
-        // Em branco ou parcialmente preenchido => botão disabled = true
-        // Preechido e validade => botao disabled = false 
+        this.email = React.createRef() //Criando referencia
+        this.password = React.createRef() //Criando referencia
     }
     onDisabledButton= () =>{
-        console.log('mudou')
+        console.log('this email',this.email.current)
+        const inputEmail = this.email.current
+        const inputPassword = this.password.current
+
+        if (inputEmail.hasError() || inputPassword.hasError()){
+            this.setState({disabled:true})
+        }else{
+            this.setState({disabled:false})
+        }
     }
     render(){
         return(
@@ -37,10 +45,10 @@ class Login extends React.Component{
                 <Form title = 'Login' text = "Entre com o seu email e senha" >
 
                         <Form.Label htmlFor='email'>Email:</Form.Label>
-                        <Form.Input type='email' placeholder="Email" id = "email" onChange = {this.onDisabledButton} required/>
+                        <Form.Input ref ={this.email} type='email' placeholder="Email" id = "email" onChange = {this.onDisabledButton} required/>
 
                         <Form.Label htmlFor='password'>Senha:</Form.Label>
-                        <Form.Input type='password' placeholder="Password" id = "password" minLength = {6} onChange = {this.onDisabledButton} required/>
+                        <Form.Input ref ={this.password} type='password' placeholder="Password" id = "password" minLength = {6} onChange = {this.onDisabledButton} required/>
 
                         <Form.Button disabled={this.state.disabled}> Enviar</Form.Button> 
 
