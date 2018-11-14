@@ -24,8 +24,16 @@ import './input.css'
 class Input extends React.Component{
     constructor(props){
         super(props)
-        this.state = { erro : false }//Guardar o estado do elemento
+        this.state = { erro : null }//Guardar o estado do elemento
         // this.handleChange = this.handleChange.bind(this) //Você tem que usar o bind para que o browser entenda que o this é referente a este elemento
+    }
+    //Metodo para ver se tem erro ou não
+    hasError = ()=>{
+        if(this.state.erro){  //Se retornar valor null ou "" (valores falsos)
+            return true
+        } else {
+            return false
+        }
     }
     handleChange = (e) =>{ //Substitui o bind
         const value = e.target.value
@@ -33,14 +41,14 @@ class Input extends React.Component{
         const regex = /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@(([[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/
         console.log('Hello onchange', value)
         if (this.props.required && value.trim()===''){
-            message = 'Campo obrigratório'
+            message = 'Campo obrigatório'
             //Se entrar no erro muda o estado 
         }else if(this.props.minLength && value.length < this.props.minLength){
             message = `Digite pelo menos ${this.props.minLength} caracteres`
         }else if(this.props.type === 'email' && !regex.test(value)){
             message = 'Digite um email válido'
         }
-        this.setState({erro : message})
+        this.setState({erro : message},this.props.onChange)
         return
     }
     render() {
@@ -63,4 +71,3 @@ class Input extends React.Component{
 
 // React fragment é para não precisar criar uma div para abracar os elementos, eu crio um fragmento no DOM
 export default Input // Exportar para que eu possa pegar em outro arquivo
-
